@@ -1,7 +1,7 @@
 <script setup>
-import MessageBubble from './messageBubble.vue';
+import MessageBubble from './MessageBubble.vue';
 import { getMessages } from '../utils/utils'
-import { ref, onMounted, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 
 
 
