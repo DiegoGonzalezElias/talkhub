@@ -6,14 +6,14 @@ const props = defineProps({
         type: Object,
         required: true,
     }
-    });
+});
 
 const selectContactStore = useSelectContactStore();
 
-const pickContact = () =>{
+const pickContact = () => {
     selectContactStore.changeSelectedContact(props.contact)
     localStorage.setItem('selectedContact', JSON.stringify(props.contact));
-    
+
 }
 
 //const emit = defineEmits(["selected-contact"])
@@ -25,7 +25,7 @@ const pickContact = () =>{
     <div class="contact" @click="pickContact">
         <img :src="contact.avartarImg" alt="avatar">
         {{ contact.name }}
-        
+
     </div>
 </template>
 
@@ -37,9 +37,10 @@ const pickContact = () =>{
     display: flex
     align-items: center
     gap: 10px
-    //border: 1px solid black
+    border: 1px solid black
     border-radius: 15px
     padding: 10px
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1)
     img
         width: 50px
         border-radius: 50%
