@@ -1,28 +1,38 @@
 <script setup>
 import MessageBubble from './MessageBubble.vue';
-import { getMessages } from '../utils/utils'
+import { getMessages, getMoreOldMessages } from '../utils/utils'
 import { ref, watchEffect } from 'vue'
 
 
 
 const props = defineProps({
   isContactSelected: {
-        type: Boolean,
-        required: true,
-    }
+    type: Boolean,
+    required: true,
+  }
 });
 
 const messages = ref([]);
+const lastVisible = ref(null)
 
 // Función de devolución de llamada para actualizar los mensajes
 const updateMessages = (newMessages) => {
   messages.value = newMessages;
 };
 
+const updateLastMessageVisible = (newVisible) => {
+  lastVisible.value = newVisible
+}
 
-watchEffect(()=>{
-  if(props.isContactSelected){
-    getMessages(updateMessages);
+
+watchEffect(() => {
+  if (props.isContactSelected) {
+    getMessages(updateMessages, updateLastMessageVisible)
+      .then((_) => {
+        console.log('obteniendo siguientes mensajes')
+        getMoreOldMessages(lastVisible.value, updateMessages, messages.value)
+      });
+
   }
 })
 
@@ -35,14 +45,9 @@ watchEffect(()=>{
 
 
 <template>
-    <div class="chatGrid">
-        <MessageBubble
-        v-for="(message, index) in messages"
-        :key="index"
-        class="message"
-        :message="message"
-        />
-    </div>
+  <div class="chatGrid">
+    <MessageBubble v-for="(message, index) in messages" :key="index" class="message" :message="message" />
+  </div>
 </template>
 
 
